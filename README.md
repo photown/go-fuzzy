@@ -31,7 +31,7 @@ laptop := &Laptop{HasFan: true, Processor: processor}
 
 laptops := []Laptop { laptop }
 
-fuzzy := &GoFuzzy{array: laptops, keys: []string{"Manufacturer", "Processor.Manufacturer"} }
+fuzzy := &Fuzzy{array: laptops, keys: []string{"Manufacturer", "Processor.Manufacturer"} }
 ```
 
 ---

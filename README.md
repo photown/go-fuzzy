@@ -26,8 +26,8 @@ type CPU struct {
   Frequency int
 }
 
-processor := &CPU{Cores: 4, Frequency: 4}
-laptop := &Laptop{HasFan: true, Processor: processor}
+processor := &CPU{Manufacturer: "Intel", Cores: 4, Frequency: 4}
+laptop := &Laptop{Manufacturer: "Acer", HasFan: true, Processor: processor}
 
 laptops := []Laptop { laptop }
 

@@ -31,12 +31,14 @@ laptop := &Laptop{HasFan: true, Processor: processor}
 
 laptops := []Laptop { laptop }
 
-fuzzy := &Fuzzy{Аrray: laptops, Кeys: []string{"Manufacturer", "Processor.Manufacturer"} }
+fuzzyDemo := fuzzy.NewFuzzy()
+fuzzyDemo.Set(laptops)
+fuzzyDemo.Кeys = []string{"Manufacturer", "Processor.Manufacturer"}
 ```
 
 ---
 
-**Id** (_type:_ `string`, _default:_ `nil`)  
+**Id** (_type:_ `string`, _default:_ `""`)  
 Name of the identifier property. If set, instead of returning the objects themselves, it will return the specified identifier of the objects.
 
 ---
@@ -52,22 +54,22 @@ Whether to sort the result list by score.
 ---
 
 **SearchFn** (_type:_ `Searchable`, _default:_ `defaults.BitapSearcher`)  
-The search function to use. The object must implement Searchable interface:
+The search function to use. The object must implement `Searchable` interface:
 ```go
 type Searchable interface {
-    SetPattern(pattern string, options []string)
-    Search(text string)
+    SetPattern(pattern string, options *fuzzy.BitapOptions)
+    Search(text string) *fuzzy.SearchResult
 }
 ```
 
 ---
 
-**GetFn** (_type:_ `func(object interface{}, path string) string`, _default:_ `defaults.DefaultGet`)  
+**GetFn** (_type:_ `func(object interface{}, path string) interface{}`, _default:_ `defaults.DefaultGet`)  
 The method used to access an object's properties. The default implementation handles dot notation nesting (i.e. a.b.c).
 
 ---
 
-**SortFn** (_type:_ `func(func(object1 interface{}, object2 interface{}) int)`, _default:_ `defaults.DefaultSort`)  
+**SortFn** (_type:_ `func(object1 interface{}, object2 interface{}) int`, _default:_ `defaults.DefaultComparator`)  
 The function that is used for sorting the result list.
 
 
@@ -95,7 +97,7 @@ The maximum length of the pattern. The longer the pattern, the more intensive th
 ### func Search(pattern string) []interface{}
 
 @param {string} pattern The pattern string to fuzzy search on.
-@return A list of all serch matches.
+@return A list of all search matches.
 
 Searches for all the items whose keys (fuzzy) match the pattern.
 
@@ -104,7 +106,7 @@ Searches for all the items whose keys (fuzzy) match the pattern.
 @param list
 @return The newly set list
 
-Sets a new list for Fuse to match against.
+Sets a new list for GoFuzzy to match against.
 
 ## License
 ```

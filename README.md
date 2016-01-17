@@ -9,7 +9,7 @@ go get github.com/antoan-angelov/go-fuzzy
 ```
 
 ## Options
-**keys** (_type:_ `[]string`, _default:_ `nil`)  
+**Кeys** (_type:_ `[]string`, _default:_ `nil`)  
 The list of properties to use fuzzy search on. It supports nested properties via dot notation.
 
 ```go
@@ -31,7 +31,7 @@ laptop := &Laptop{HasFan: true, Processor: processor}
 
 laptops := []Laptop { laptop }
 
-fuzzy := &Fuzzy{array: laptops, keys: []string{"Manufacturer", "Processor.Manufacturer"} }
+fuzzy := &Fuzzy{Аrray: laptops, Кeys: []string{"Manufacturer", "Processor.Manufacturer"} }
 ```
 
 ---

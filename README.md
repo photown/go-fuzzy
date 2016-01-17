@@ -51,7 +51,7 @@ Whether to sort the result list by score.
 
 ---
 
-**searchFn** (_type:_ `Searchable`, _default:_ `BitapSearcher`)  
+**searchFn** (_type:_ `Searchable`, _default:_ `defaults.BitapSearcher`)  
 The search function to use. The object must implement Searchable interface:
 ```go
 type Searchable interface {
@@ -62,12 +62,12 @@ type Searchable interface {
 
 ---
 
-**getFn** (_type:_ `func(object interface{}, path string) string`, _default:_ `Defaults.DefaultGet`)  
+**getFn** (_type:_ `func(object interface{}, path string) string`, _default:_ `defaults.DefaultGet`)  
 The method used to access an object's properties. The default implementation handles dot notation nesting (i.e. a.b.c).
 
 ---
 
-**sortFn** (_type:_ `func(func(object1 interface{}, object2 interface{}) int)`, _default:_ `Defaults.DefaultSort`)  
+**sortFn** (_type:_ `func(func(object1 interface{}, object2 interface{}) int)`, _default:_ `defaults.DefaultSort`)  
 The function that is used for sorting the result list.
 
 

@@ -1,16 +1,18 @@
 # go-fuzzy
 Go-fuzzy is a Golang fuzzy search implementation that for given keys returns objects with the closest values to an input.
 
+A shameless port of [Fuse](https://github.com/krisk/Fuse).
+
 ## Installation
 ```
 go get github.com/antoan-angelov/go-fuzzy
 ```
 
 ## Options
-**keys**  
+**keys** (_type:_ `[]string`, _default:_ `nil`)  
 The list of properties to use fuzzy search on. It supports nested properties via dot notation.
 
-```
+```go
 type Laptop struct {
   Manufacturer string
   HasFan bool
@@ -34,24 +36,24 @@ fuzzy := &GoFuzzy{array: laptops, keys: []string{"Manufacturer", "Processor.Manu
 
 ---
 
-**id**  
+**id** (_type:_ `string`, _default:_ `nil`)  
 Name of the identifier property. If set, instead of returning the objects themselves, it will return the specified identifier of the objects.
 
 ---
 
-**caseSensitive**  
+**caseSensitive** (_type:_ `bool`, _default:_ `false`)  
 Whether comparisons should be case sensitive.
 
 ---
 
-**shouldSort**  
+**shouldSort** (_type:_ `bool`, _default:_ `true`)  
 Whether to sort the result list by score.
 
 ---
 
-**searchFn**  
+**searchFn** (_type:_ `Searchable`, _default:_ `BitapSearcher`)  
 The search function to use. The object must implement Searchable interface:
-```
+```go
 type Searchable interface {
     SetPattern(pattern string, options []string)
     Search(text string)
@@ -60,44 +62,44 @@ type Searchable interface {
 
 ---
 
-**getFn**  
-The method used to access an object's property. The default implementation handles dot notation nesting (i.e. a.b.c).
+**getFn** (_type:_ `func(object interface{}, path string) string`, _default:_ `Defaults.DefaultGet`)  
+The method used to access an object's properties. The default implementation handles dot notation nesting (i.e. a.b.c).
 
 ---
 
-**sortFn**  
+**sortFn** (_type:_ `func(func(object1 interface{}, object2 interface{}) int)`, _default:_ `Defaults.DefaultSort`)  
 The function that is used for sorting the result list.
 
 
 ### Bitap specific options
-**location**  
+**location** (_type:_ `int`, _default:_ `0`)  
 Determines approximately where in the text is the pattern expected to be found.
 
 ---
 
-**threshold** 
+**threshold** (_type:_ `float32`, _default:_ `0.6`)  
 At what point the match algorithm gives up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
 
 ---
 
-**distance**  
+**distance** (_type:_ `int`, _default:_ `100`)  
 Determines how close the match must be to the fuzzy location (specified by location). An exact letter match which is distance characters away from the fuzzy location would score as a complete mismatch. A distance of 0 requires the match be at the exact location specified, a threshold of 1000 would require a perfect match to be within 800 characters of the location to be found using a threshold of 0.8.
 
 ---
 
-**maxPatternLength**  
+**maxPatternLength** (_type:_ `int`, _default:_ `32`)  
 The maximum length of the pattern. The longer the pattern, the more intensive the search operation will be. Whenever the pattern exceeds the maxPatternLength, an error will be thrown.
 
 ## Methods
 
-### search(pattern)
+### func search(pattern string) []interface{}
 
 @param {string} pattern The pattern string to fuzzy search on.
 @return A list of all serch matches.
 
 Searches for all the items whose keys (fuzzy) match the pattern.
 
-### set(list)
+### func set(list []interface{}) []interface{}
 
 @param list
 @return The newly set list

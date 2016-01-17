@@ -7,10 +7,7 @@ A shameless port of [Fuse](https://github.com/krisk/Fuse).
 ```
 go get github.com/antoan-angelov/go-fuzzy
 ```
-
-## Options
-**Кeys** (_type:_ `[]string`, _default:_ `nil`)  
-The list of properties to use fuzzy search on. It supports nested properties via dot notation.
+## Example
 
 ```go
 type Laptop struct {
@@ -26,15 +23,24 @@ type CPU struct {
   Frequency int
 }
 
-processor := &CPU{Manufacturer: "Intel", Cores: 4, Frequency: 4}
-laptop := &Laptop{Manufacturer: "Acer", HasFan: true, Processor: processor}
+processor1 := &CPU{Manufacturer: "Intel", Series: "i7", Cores: 4, Frequency: 4}
+laptop1 := &Laptop{Manufacturer: "Acer", HasFan: true, Processor: processor}
 
-laptops := []Laptop { laptop }
+processor2 := &CPU{Manufacturer: "AMD", Series: "Athlon", Cores: 4, Frequency: 4}
+laptop2 := &Laptop{Manufacturer: "Lenovo", HasFan: true, Processor: processor}
+
+laptops := []Laptop { laptop1, laptop2 }
 
 fuzzyDemo := fuzzy.NewFuzzy()
 fuzzyDemo.Set(laptops)
 fuzzyDemo.Кeys = []string{"Manufacturer", "Processor.Manufacturer"}
+
+results := fuzzyDemo.Search("Inet") // returns [laptop1]
 ```
+
+## Options
+**Кeys** (_type:_ `[]string`, _default:_ `nil`)  
+The list of properties to use fuzzy search on. It supports nested properties via dot notation.
 
 ---
 

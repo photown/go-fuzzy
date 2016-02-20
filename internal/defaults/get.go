@@ -2,7 +2,7 @@ package defaults
 
 import "strings"
 import "reflect"
-import "github.com/antoan-angelov/fuzzy/internal/models"
+import "github.com/antoan-angelov/go-fuzzy/internal/models"
 
 // The method used to access an object's properties.
 // The default implementation handles dot notation nesting (i.e. a.b.c).

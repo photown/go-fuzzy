@@ -3,8 +3,8 @@ package fuzzy
 
 import "strings"
 import "sort"
-import "github.com/antoan-angelov/fuzzy/internal/defaults"
-import "github.com/antoan-angelov/fuzzy/internal/models"
+import "github.com/antoan-angelov/go-fuzzy/internal/defaults"
+import "github.com/antoan-angelov/go-fuzzy/internal/models"
 
 type Results []models.ResultWrapper
 

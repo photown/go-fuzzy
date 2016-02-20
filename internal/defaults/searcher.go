@@ -1,7 +1,7 @@
 package defaults
 
 import "math"
-import "github.com/antoan-angelov/fuzzy/internal/models"
+import "github.com/antoan-angelov/go-fuzzy/internal/models"
 
 // The object containing the pattern and search function.
 // The object must implement `Searchable` interface.

@@ -11,7 +11,7 @@ go get github.com/antoan-angelov/go-fuzzy
 
 ```go
 import "fmt"
-import "github.com/antoan-angelov/fuzzy"
+import "github.com/antoan-angelov/go-fuzzy"
 
 type Laptop struct {
   Manufacturer string

@@ -51,11 +51,11 @@ func (f *Fuzzy) Search(pattern string) ([]interface{}, error) {
 	}
 
 	f.searchFn.SetPattern(pattern, &f.Options)
-  result, error := f.retrieveSearchResults()
+	result, error := f.retrieveSearchResults()
 
-  if error != nil {
-    return nil, error
-  }
+	if error != nil {
+		return nil, error
+	}
 
 	if f.shouldSort {
 		swap := func(i, j int) { result[i], result[j] = result[j], result[i] }
@@ -67,82 +67,82 @@ func (f *Fuzzy) Search(pattern string) ([]interface{}, error) {
 }
 
 func (f *Fuzzy) retrieveSearchResults() (Results, error) {
-  result := make(Results, 0, len(*f.objects))
-  for _, element := range (*f.objects) {
-    var maxResult *models.SearchResult
+	result := make(Results, 0, len(*f.objects))
+	for _, element := range *f.objects {
+		var maxResult *models.SearchResult
 
-    if f.keys != nil {
-      bestMatch, error := f.getBestMatchForKeys(element)
-      if error != nil {
-        return nil, error
-      }
+		if f.keys != nil {
+			bestMatch, error := f.getBestMatchForKeys(element)
+			if error != nil {
+				return nil, error
+			}
 
-      maxResult = bestMatch
-    } else {
-      if value, ok := element.(string); ok {
-        if !f.caseSensitive {
-          value = strings.ToLower(value)
-        }
+			maxResult = bestMatch
+		} else {
+			if value, ok := element.(string); ok {
+				if !f.caseSensitive {
+					value = strings.ToLower(value)
+				}
 
-        searchResult := f.searchFn.Search(value)
-        if searchResult != nil && searchResult.IsMatch {
-          maxResult = searchResult
-        }
-      } else {
-        return nil, &models.InvalidKeyError{}
-      }
-    }
+				searchResult := f.searchFn.Search(value)
+				if searchResult != nil && searchResult.IsMatch {
+					maxResult = searchResult
+				}
+			} else {
+				return nil, &models.InvalidKeyError{}
+			}
+		}
 
-    if maxResult != nil {
-      result = append(result, models.ResultWrapper{maxResult, element})
-    }
-  }
+		if maxResult != nil {
+			result = append(result, models.ResultWrapper{maxResult, element})
+		}
+	}
 
-  return result, nil
+	return result, nil
 }
 
 func (f *Fuzzy) getBestMatchForKeys(element interface{}) (*models.SearchResult, error) {
-  var maxResult *models.SearchResult
+	var maxResult *models.SearchResult
 
-  for _, key := range f.keys {
-    val, _ := f.getFn(element, key)
+	for _, key := range f.keys {
+		val, _ := f.getFn(element, key)
 
-    if value, ok := val.(string); ok {
-      if !f.caseSensitive {
-        value = strings.ToLower(value)
-      }
+		if value, ok := val.(string); ok {
+			if !f.caseSensitive {
+				value = strings.ToLower(value)
+			}
 
-      searchResult := f.searchFn.Search(value)
-      if searchResult != nil && searchResult.IsMatch {
-        if maxResult == nil || maxResult.Score < searchResult.Score {
-          maxResult = searchResult
-        }
-      }
-    } else {
-      return nil, &models.InvalidKeyError{}
-    }
-  }
+			searchResult := f.searchFn.Search(value)
+			if searchResult != nil && searchResult.IsMatch {
+				if maxResult == nil || maxResult.Score < searchResult.Score {
+					maxResult = searchResult
+				}
+			}
+		} else {
+			return nil, &models.InvalidKeyError{}
+		}
+	}
 
-  return maxResult, nil
+	return maxResult, nil
 }
 
 func (f *Fuzzy) constructResult(result Results) ([]interface{}, error) {
-  finalResult := make([]interface{}, 0, len(result))
+	finalResult := make([]interface{}, 0, len(result))
 
-  for _, element := range result {
-    if f.id != "" {
-      resultValue, error := f.getFn(element.Item, f.id)
-      if error == nil {
-        finalResult = append(finalResult, resultValue)
-      } else {
-        return nil, &models.InvalidKeyError{}
-      }
-    } else {
-      finalResult = append(finalResult, element.Item)
-    }
-  }
+	for _, element := range result {
+		if f.id != "" {
+			resultValue, error := f.getFn(element.Item, f.id)
+			if error == nil {
+				finalResult = append(finalResult, resultValue)
+			} else {
+				return nil, &models.InvalidKeyError{}
+			}
+		} else {
+			finalResult = append(finalResult, element.Item)
+		}
+	}
 
-  return finalResult, nil
+	return finalResult, nil
 }
 
 // @param list
@@ -166,7 +166,7 @@ func (f *Fuzzy) SetShouldSort(b bool) {
 }
 
 func (f *Fuzzy) SetCaseSensitive(b bool) {
-  f.caseSensitive = b
+	f.caseSensitive = b
 }
 
 func (f *Fuzzy) SetSearchFn(fn models.Searchable) {

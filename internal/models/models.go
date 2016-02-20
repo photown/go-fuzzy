@@ -47,8 +47,8 @@ func (o *Options) SetThreshold(threshold uint) {
 	o.Threshold = threshold
 }
 
-type InvalidKeyError struct {}
+type InvalidKeyError struct{}
 
 func (e *InvalidKeyError) Error() string {
-    return "Provided key is either nil or does not point to a string value."
+	return "Provided key is either nil or does not point to a string value."
 }
